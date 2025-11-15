@@ -8,6 +8,19 @@ from .models import Library
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.decorators import permission_required
 from .forms import BookForm  # You will need a ModelForm for Book
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+    else:
+        form = UserCreationForm()
+    return render(request, "register.html", {"form": form})
+
 
 # ---------------- Add Book ----------------
 @permission_required('relationship_app.can_add_book', raise_exception=True)
