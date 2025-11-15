@@ -19,12 +19,26 @@ def get_books_by_author(author_name):
 def get_books_in_library(library_name):
     library = Library.objects.get(name=library_name)
     return library.books.all()
+def query_librarian_for_library(library_name):
 
+    """Retrieve the librarian for a library using Librarian.objects.get(library=...)"""
 
-# 3. Retrieve the librarian for a library
-def get_librarian_for_library(library_name):
-    library = Library.objects.get(name=library_name)
-    return library.librarian
+    try:
+
+        library = Library.objects.get(name=library_name)
+
+        librarian = Librarian.objects.get(library=library)
+
+        print(f"The librarian for {library.name} is {librarian.name}.")
+
+    except Library.DoesNotExist:
+
+        print("Library not found.")
+
+    except Librarian.DoesNotExist:
+
+        print("No librarian assigned to this library.")
+
 
 
 # Example usage (you can remove these before submitting if needed):
@@ -36,4 +50,4 @@ if __name__ == "__main__":
     print(get_books_in_library("Central Library"))
 
     print("\nLibrarian for Central Library:")
-    print(get_librarian_for_library("Central Library"))
+    print(query_librarian_for_library("Central Library"))
