@@ -153,3 +153,4 @@ SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
 
 # Secure cookie ensures session is sent only over HTTPS
 SESSION_COOKIE_SECURE = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
