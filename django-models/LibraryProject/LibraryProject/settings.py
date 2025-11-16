@@ -1,7 +1,5 @@
 from pathlib import Path
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -102,4 +100,5 @@ USE_TZ = True
 # Static files
 STATIC_URL = 'static/'
 
-# Default primary key fi
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
