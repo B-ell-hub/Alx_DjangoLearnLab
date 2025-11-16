@@ -142,3 +142,18 @@ Repo:
 GitHub repository: Alx_DjangoLearnLab
 Directory: Introduction_to_Django
    
+# Permissions and Groups Setup
+
+Models:
+- Book: has custom permissions can_view, can_create, can_edit, can_delete
+
+Groups:
+- Admins: all permissions
+- Editors: can_create, can_edit
+- Viewers: can_view only
+
+Views:
+- add_book: @permission_required('bookshelf.can_create')
+- edit_book: @permission_required('bookshelf.can_edit')
+- delete_book: @permission_required('bookshelf.can_delete')
+- book_list: @permission_required('bookshelf.can_view')
