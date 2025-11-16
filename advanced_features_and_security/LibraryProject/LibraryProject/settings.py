@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf' ,
     'relationship_app',
+    'csp',
 ]
 # Custom user model
 AUTH_USER_MODEL = "bookshelf.CustomUser"
@@ -52,8 +53,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
-
+# Example CSP policy
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", 'fonts.googleapis.com')
 ROOT_URLCONF = 'LibraryProject.urls'
 
 TEMPLATES = [
@@ -125,3 +130,26 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# SECURITY SETTINGS
+
+DEBUG = False  # Never leave DEBUG=True in production
+
+# Browser security
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Cookie security
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# HSTS (optional, for HTTPS only)
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Other recommended settings
+SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
+
+# Secure cookie ensures session is sent only over HTTPS
+SESSION_COOKIE_SECURE = True

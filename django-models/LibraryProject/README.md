@@ -142,3 +142,10 @@ Repo:
 GitHub repository: Alx_DjangoLearnLab
 Directory: Introduction_to_Django
    
+# Django Security Measures Implemented
+
+1. DEBUG=False
+2. SECURE_BROWSER_XSS_FILTER, SECURE_CONTENT_TYPE_NOSNIFF, X_FRAME_OPTIONS
+3. CSRF_COOKIE_SECURE, SESSION_COOKIE_SECURE
+4. Secure ORM queries to prevent SQL injection
+5. CSP implemented using django-csp middleware
