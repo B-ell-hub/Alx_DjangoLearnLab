@@ -1,13 +1,15 @@
-from django.contrib import admin
-from django.urls import path, include  # Make sure 'include' is imported
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import BookList, BookViewSet
+
+# Create router and register ViewSet
+router = DefaultRouter()
+router.register(r'books_all', BookViewSet, basename='book_all')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),  # This is the key line your checker wants
-]
-from django.urls import path
-from .views import BookList
-
-urlpatterns = [
+    # Existing list view
     path('books/', BookList.as_view(), name='book-list'),
+
+    # Include router URLs for full CRUD
+    path('', include(router.urls)),
 ]
