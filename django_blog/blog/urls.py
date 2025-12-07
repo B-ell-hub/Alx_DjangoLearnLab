@@ -41,3 +41,11 @@ urlpatterns = [
     path('comment/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment-delete'),
 ]
 path('post/<int:pk>/comments/new/', views.CommentCreateView.as_view(), name='comment-create'),
+from . import views
+
+urlpatterns = [
+    ...
+    path('tags/<slug:tag_slug>/', views.PostsByTagListView.as_view(), name='posts-by-tag'),
+]
+path('search/', views.SearchResultsView.as_view(), name='search-results'),
+

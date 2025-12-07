@@ -36,3 +36,8 @@
   </main>
 </body>
 </html>
+<form method="GET" action="{% url 'search-results' %}">
+    <input type="text" name="q" placeholder="Search posts..." required>
+    <button type="submit">Search</button>
+</form>
+
