@@ -158,3 +158,13 @@ DATABASES = {
 
 # Ensure templates DIRS includes BASE_DIR / 'templates' if you use global templates
 TEMPLATES[0]['DIRS'] = [ BASE_DIR / 'templates' ]  # optional
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    }
+}
