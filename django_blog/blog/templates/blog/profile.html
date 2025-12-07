@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+  <h2>Profile for {{ request.user.username }}</h2>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h3>Account</h3>
+    {{ u_form.as_p }}
+
+    <h3>Profile</h3>
+    {% if request.user.profile.profile_image %}
+      <img src="{{ request.user.profile.profile_image.url }}" alt="Profile image" width="150">
+    {% endif %}
+    {{ p_form.as_p }}
+
+    <button type="submit">Update</button>
+  </form>
+{% endblock %}

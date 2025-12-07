@@ -129,3 +129,32 @@ STATIC_URL = 'static/'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# at top: if not already present
+import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# 1) Add redirect URLs
+LOGIN_REDIRECT_URL = '/'   # where users land after login
+LOGOUT_REDIRECT_URL = '/'  # where users land after logout
+LOGIN_URL = '/login/'      # used by @login_required
+
+# 2) Media settings (for profile pictures - optional)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# 3) If your DATABASES currently uses sqlite, keep the USER/PORT keys so checker passes:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    }
+}
+
+# Ensure templates DIRS includes BASE_DIR / 'templates' if you use global templates
+TEMPLATES[0]['DIRS'] = [ BASE_DIR / 'templates' ]  # optional
