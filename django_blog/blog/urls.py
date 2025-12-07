@@ -8,6 +8,7 @@ from .views import (
 )
 
 urlpatterns = [
+    # Existing post URLs
     path('', PostListView.as_view(), name='post-list'),              # / → list of posts
     path('post/new/', PostCreateView.as_view(), name='post-create'), # create
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'), # detail
@@ -21,16 +22,5 @@ path('comments/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-del
 from django.urls import path
 from . import views
 
-urlpatterns = [
-    # Existing post URLs
-    path('posts/', views.PostListView.as_view(), name='post-list'),
-    path('post/new/', views.PostCreateView.as_view(), name='post-create'),
-    path('post/<int:pk>/', views.PostDetailView.as_view(), name='post-detail'),
-    path('post/<int:pk>/update/', views.PostUpdateView.as_view(), name='post-update'),
-    path('post/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post-delete'),
+path('post/<int:post_id>/comments/new/', views.CommentCreateView.as_view(), name='comment-create'),
 
-    # Comment URLs
-    path('post/<int:post_id>/comments/new/', views.CommentCreateView.as_view(), name='comment-create'),
-    path('comment/<int:pk>/update/', views.CommentUpdateView.as_view(), name='comment-update'),
-    path('comment/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment-delete'),
-]
