@@ -33,3 +33,13 @@ class PostForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'placeholder': 'Enter post title'}),
             'content': forms.Textarea(attrs={'rows': 10, 'placeholder': 'Write your post here...'}),
         }
+from django import forms
+from .models import Comment
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Write your comment here...'})
+        }
