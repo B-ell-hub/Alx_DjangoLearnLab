@@ -3,7 +3,11 @@ from django.db import models
 
 class User(AbstractUser):
     bio = models.TextField(blank=True)
-    profile_picture = models.CharField(max_length=255, blank=True)
+    profile_picture = models.ImageField(
+        upload_to='profiles/',
+        blank=True,
+        null=True
+    )
     followers = models.ManyToManyField(
         'self',
         symmetrical=False,
