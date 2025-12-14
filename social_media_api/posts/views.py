@@ -82,9 +82,41 @@ from rest_framework import generics, permissions
 from .models import Notification
 from .serializers import NotificationSerializer
 
-class NotificationListView(generics.ListAPIView):
-    serializer_class = NotificationSerializer
-    permission_classes = [permissions.IsAuthenticated]
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from .models import Post, Like
+from .serializers import PostSerializer, LikeSerializer
+from notifications.models import Notification
 
-    def get_queryset(self):
-        return Notification.objects.filter(recipient=self.request.user)
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all().order_by('-created_at')
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
+
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+    def like(self, request, pk=None):
+        post = self.get_object()
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
+        if created:
+            # create notification
+            if post.author != request.user:
+                Notification.objects.create(
+                    recipient=post.author,
+                    actor=request.user,
+                    verb='liked your post',
+                    target=post
+                )
+            return Response({'status': 'post liked'}, status=status.HTTP_201_CREATED)
+        return Response({'status': 'already liked'}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+    def unlike(self, request, pk=None):
+        post = self.get_object()
+        try:
+            like = Like.objects.get(user=request.user, post=post)
+            like.delete()
+            return Response({'status': 'post unliked'}, status=status.HTTP_200_OK)
+        except Like.DoesNotExist:
+            return Response({'status': 'not liked yet'}, status=status.HTTP_400_BAD_REQUEST)
