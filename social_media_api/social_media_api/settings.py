@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 from decouple import config
 import dj_database_url
+PORT = config('PORT', default=8000, cast=int)
 
 from pathlib import Path
 
