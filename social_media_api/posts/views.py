@@ -5,7 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 
 from .models import Post, Comment, Like
-from .serializers import PostSerializer, CommentSerializer, LikeSerializer
+from notifications.models import Notification
+from .serializers import PostSerializer, CommentSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -26,22 +27,26 @@ class PostViewSet(viewsets.ModelViewSet):
             raise PermissionError("You can only delete your own posts.")
         instance.delete()
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def like(self, request, pk=None):
         post = get_object_or_404(Post, pk=pk)
-        user = request.user
-        like, created = Like.objects.get_or_create(post=post, user=user)
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
         if created:
+            Notification.objects.create(
+                recipient=post.author,
+                actor=request.user,
+                verb="liked your post",
+                target=post
+            )
             return Response({"status": "post liked"}, status=status.HTTP_201_CREATED)
         else:
             return Response({"status": "already liked"}, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def unlike(self, request, pk=None):
         post = get_object_or_404(Post, pk=pk)
-        user = request.user
         try:
-            like = Like.objects.get(post=post, user=user)
+            like = Like.objects.get(user=request.user, post=post)
             like.delete()
             return Response({"status": "post unliked"}, status=status.HTTP_200_OK)
         except Like.DoesNotExist:
