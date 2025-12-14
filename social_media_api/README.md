@@ -14,3 +14,9 @@
 - DELETE /api/comments/{id}/
 
 Authentication: Token-based
+### Follow/Unfollow Users
+- POST `/api/accounts/follow/<user_id>/` – Follow a user
+- POST `/api/accounts/unfollow/<user_id>/` – Unfollow a user
+
+### Feed Endpoint
+- GET `/api/feed/` – Shows posts from users you follow, ordered by most recent
