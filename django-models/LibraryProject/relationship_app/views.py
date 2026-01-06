@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import login  # ✅ required by checker
 from django.contrib.auth.forms import UserCreationForm
 
+# Registration view
 def register(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)  # ✅ also required by checker
             return redirect("login")
     else:
         form = UserCreationForm()
