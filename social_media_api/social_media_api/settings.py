@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',
     'posts',
 'notifications',
+ 'relationship_app',
     
     # Third-party
     'rest_framework',
